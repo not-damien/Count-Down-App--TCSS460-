@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "express": "^4.18.1"
+  },
+  "name": "cruzapi",
+  "version": "0.0.1",
+  "description": "my api for assignment 3 in tcss 460",
+  "main": "myapi.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "damien cruz",
+  "license": "ISC"
+}
