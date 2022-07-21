@@ -13,7 +13,11 @@ let upcomingEvent = {//if had more time would dynamiclly update the years on fix
 
 }
 //todo add database of historical events 
-
+let historicalEvents = {
+    "Moon Landing": "1969-07-16",
+    "Shakespeare's Birth": "1616-04-23",
+    "End of civil war": "1865-04-09"
+}
 
 
 // app.get('/:id' ,(req, res) => {
@@ -55,10 +59,23 @@ app.get('/dateof/:event',function (req,res){
 
 app.get('/guess',function(reg,res){
     //get random event
+    res.status(200)
+    let element = historicalEvents[Math.random() * historicalEvents.length]
+    console.log(historicalEvents[Math.random() * historicalEvents.length])
+    res.json(element)
     //calculate the days since that date
     //return both event and days in json let clinet handle guess logic
 })
 
+
+//way to add spesific events will stay as long as server is running/does not save any info 
+app.post('/add/:date/:name', function(req, res){//used get for testing in browser 
+    res.status(200)
+    let tempDate = req.params.date
+    let tempName = req.params.name
+    upcomingEvent[tempName] = tempDate
+    res.send(upcomingEvent) 
+})
 
 
 
