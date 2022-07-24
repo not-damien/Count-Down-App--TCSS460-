@@ -42,6 +42,10 @@ app.listen(port, function() {
 
 //
 app.get('/countdown/:date', function (req,res){
+    res.set({
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+    });
     console.log('date is being used')
     res.status(200)
     var countDownDate = new Date(req.params.date).getTime()
@@ -57,6 +61,10 @@ app.get('/dateof/:event',function (req,res){
 })
 
 app.get('/dayof/:date', function(req,res){
+    res.set({
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+    });
     var date = new Date(req.params.date)
     res.status(200)
     switch (date.getUTCDay()) {
