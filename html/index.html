@@ -19,10 +19,14 @@
     <div>
         <p>Start a Countdown</p>
         <input type="date" id="countdown">
+        <!--have places for countdown details-->
         <button type="button" onClick="startCountdown()">Start Countdown</button>
     </div>
     <div>
-        <p>How Many days have passed since the moon landing</p>
+        <h4 id="gameprompt">How Many days have passed since the </h4>
+        <ol id="choices">
+        </ol>
+
         <!--input options here -->
     </div>
     <div>
@@ -76,5 +80,20 @@ function startCountdown(){
     xhttp.open("GET", 'http://localhost:3000/countdown/'+ date, true);
     xhttp.send();
 }
+function setUpGame(){
+    const xhttp = new XMLHttpRequest();
+    xhttp.onload = function() {
+       let string = this.responseText
+       let j = JSON.parse(string)
+       $('#gameprompt').append(j.name)
+       let li = $(document.createElement('li'))
+       li.html(j.days)
+       $('#choices').append(li)
+       //make a couple random choices too
+    }
+    xhttp.open("GET", 'http://localhost:3000/guess', true);
+    xhttp.send();
+}
+setUpGame()
 </script>
 </html>

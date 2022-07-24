@@ -99,12 +99,15 @@ app.get('/dayof/:date', function(req,res){
 
 
 app.get('/guess',function(reg,res){
-    
+    res.set({
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+    });
     //get random event
     //calculate the days since that date
     //return both event and days in json let clinet handle guess logic
     res.status(200)
-    res.json({"end of civil war" : numdaysSince(now, new Date(historicalEvents['End of civil war']))})//place holder for testing want to make dynamic later
+    res.json({'name':"end of civil war", 'days' : numdaysSince(now, new Date(historicalEvents['End of civil war']))})//place holder for testing want to make dynamic later
    
 })
 
