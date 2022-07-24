@@ -9,8 +9,7 @@ let upcomingEvent = {//if had more time would dynamiclly update the years on fix
     "juneteenth":  "2023-06-19",
     "holloween": "2022-10-31",
     "christmas":"2022-12-25",
-    "thanksgiving":"2022-11-24",
-
+    "thanksgiving":"2022-11-24"
 }
 //todo add database of historical events 
 let historicalEvents = {
@@ -27,12 +26,12 @@ let historicalEvents = {
 //     console.log('a requst has been made in root (/)')
 
 // })
-app.get('/random' ,function (req, res){
-    res.status(200)
-    const result = Math.floor(Math.random() * 1000)
-    res.json({"result": result})
-})
-//enable port to listen to incoming requests
+// app.get('/random' ,function (req, res){
+//     res.status(200)
+//     const result = Math.floor(Math.random() * 1000)
+//     res.json({"result": result})
+// })
+// //enable port to listen to incoming requests
 app.listen(port, function() {
     console.log('API is runnning on port' + port)
 })
@@ -57,6 +56,40 @@ app.get('/dateof/:event',function (req,res){
     res.send(upcomingEvent[event])
 })
 
+app.get('/dayof/:date', function(req,res){
+    var date = new Date(req.params.date)
+    res.status(200)
+    switch (date.getUTCDay()) {
+        case 0:
+          day = "Sunday";
+          break;
+        case 1:
+          day = "Monday";
+          break;
+        case 2:
+           day = "Tuesday";
+          break;
+        case 3:
+          day = "Wednesday";
+          break;
+        case 4:
+          day = "Thursday";
+          break;
+        case 5:
+          day = "Friday";
+          break;
+        case 6:
+          day = "Saturday";
+      }
+      res.json({'day': day})
+})
+
+
+
+
+
+
+
 app.get('/guess',function(reg,res){
     
     //get random event
@@ -74,12 +107,16 @@ app.post('/add/:date/:name', function(req, res){//used get for testing in browse
     let tempDate = req.params.date
     let tempName = req.params.name
     upcomingEvent[tempName] = tempDate
-    res.send(upcomingEvent) 
+    res.json(upcomingEvent) 
 })
 
 
 
 
+
+
+
+//helper functions 
 /**
  * 
  * @param {*} timeleft number of milisecond 
