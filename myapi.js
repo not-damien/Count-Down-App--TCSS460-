@@ -59,6 +59,10 @@ app.get('/dateof/:event',function (req,res){
     let event = req.params.event
     res.send(upcomingEvent[event])
 })
+app.get('/allEvents',function(req,res){
+    res.status(200)
+    res.json(upcomingEvent)
+})
 
 app.get('/dayof/:date', function(req,res){
     res.set({
@@ -114,6 +118,10 @@ app.get('/guess',function(reg,res){
 
 //way to add spesific events will stay as long as server is running/does not save any info 
 app.post('/add/:date/:name', function(req, res){//used get for testing in browser 
+    res.set({
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+    });
     res.status(200)
     let tempDate = req.params.date
     let tempName = req.params.name

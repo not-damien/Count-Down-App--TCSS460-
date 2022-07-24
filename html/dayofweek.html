@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="form-group">
+        <label for="dayofweek">Enter any date to find out the day of the week</label>
+        <input type="date" id="dayofweek"><!--tbh kinda useless cus calander input has day of the week-->
+        <button type="button" onclick="getDay()">click me</button>
+    </div>
+</body>
+<script>
+    function getDay(){
+    let date = $('#dayofweek').val()
+    const xhttp = new XMLHttpRequest();
+    xhttp.onload = function() {
+       let string = this.responseText
+       let j = JSON.parse(string)
+       console.log(j.day)
+    }
+    xhttp.open("GET", 'http://localhost:3000/dayof/'+ date, true);
+    xhttp.send();
+    }
+</script>
+</html>
