@@ -17,10 +17,8 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="index.html">Countdown</a>
-            <a class="nav-item nav-link" href="#">Guessing Game<span class="sr-only">(current)</span></a>
-            <a class="nav-item nav-link" href="#">Pricing</a>
-            <a class="nav-item nav-link disabled" href="#">Disabled</a>
+            <a class="nav-item nav-link" href="index.html">Countdown</a>
+            <a class="nav-item nav-link active" href="#">Guessing Game<span class="sr-only">(current)</span></a>
           </div>
         </div>
       </nav>
@@ -29,6 +27,7 @@
         <h4 id="gameprompt">How Many days have passed since the </h4>
         <ol id="choices">
         </ol>
+        <button onclick="resetGame()"> Try Again</button>
 
         <!--input options here -->
     </div>
@@ -38,17 +37,35 @@
 function setUpGame(){
     const xhttp = new XMLHttpRequest();
     xhttp.onload = function() {
+      let choices = $('#choices')
        let string = this.responseText
        let j = JSON.parse(string)
-       $('#gameprompt').append(j.name)
+       $('#gameprompt').html('How Many Days Have Passed Since ' + j.name +'?')
        let li = $(document.createElement('li'))
-       li.html(j.days)
-       $('#choices').append(li)
-       //make a couple random choices too
+       li.html(j.days + 'Days')
+       choices.append(li)
+       for(let i = 0 ;i <4;i++ ){
+        let temp = $(document.createElement('li'))
+        temp.html(Math.floor(Math.random() * 20000) + ' Days')
+        choices.append(temp)//make a couple random choices too
+        temp.click(function(){
+          temp.css("background-color","red")//wrong answers 
+        })
+       }
+       li.click(function(){
+        li.css("background-color", "green");//right answer
+       }
+       )
     }
     xhttp.open("GET", 'http://localhost:3000/guess', true);
     xhttp.send();
 }
-setUpGame()
+function resetGame(){
+  //clear board 
+  $('#choices').html('')
+  //setup game again
+  setUpGame()
+}
+setUpGame()//intialize game
 </script>
 </html>

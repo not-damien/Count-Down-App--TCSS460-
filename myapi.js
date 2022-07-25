@@ -13,9 +13,9 @@ let upcomingEvent = {//if had more time would dynamiclly update the years on fix
 }
 //todo add database of historical events 
 let historicalEvents = {
-    "Moon Landing": "1969-07-16",
+    "The Moon Landing": "1969-07-16",
     "Shakespeare's Birth": "1616-04-23",
-    "End of civil war": "1865-04-09"
+    "The End of civil war": "1865-04-09"
 }
 
 
@@ -111,11 +111,16 @@ app.get('/guess',function(reg,res){
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
     });
+    
+    var obj_keys = Object.keys(historicalEvents)
+    let i = Math.floor(Math.random() * obj_keys.length);
+    console.log(obj_keys[i])
+
     //get random event
     //calculate the days since that date
     //return both event and days in json let clinet handle guess logic
     res.status(200)
-    res.json({'name':"end of civil war", 'days' : numdaysSince(now, new Date(historicalEvents['End of civil war']))})//place holder for testing want to make dynamic later
+    res.json({'name': obj_keys[i], 'days' : numdaysSince(now, new Date(historicalEvents[obj_keys[i]]))})//place holder for testing want to make dynamic later
    
 })
 
