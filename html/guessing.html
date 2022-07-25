@@ -11,7 +11,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="#">Cruz</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -25,9 +25,9 @@
 
       <div>
         <h4 id="gameprompt">How Many days have passed since the </h4>
-        <ol id="choices">
+        <ol id="choices" class="list-group">
         </ol>
-        <button onclick="resetGame()"> Try Again</button>
+        <button onclick="resetGame()">New Question</button>
 
         <!--input options here -->
     </div>
@@ -36,17 +36,19 @@
 <script>
 function setUpGame(){
     const xhttp = new XMLHttpRequest();
-    xhttp.onload = function() {
-      let choices = $('#choices')
-       let string = this.responseText
-       let j = JSON.parse(string)
-       $('#gameprompt').html('How Many Days Have Passed Since ' + j.name +'?')
-       let li = $(document.createElement('li'))
-       li.html(j.days + 'Days')
-       choices.append(li)
+    xhttp.onload = function() {//called once async is ready
+      let choices = $('#choices')//div holding all answers
+       let string = this.responseText//getting the response from the call
+       let j = JSON.parse(string)//parsing into JSON
+       $('#gameprompt').html('How Many Days Have Passed Since ' + j.name +'?')//updating prompt from user
+       let li = $(document.createElement('li'))//create element for right answer
+       li.html(j.days + 'Days')//adding correct answer to elemtnt 
+       li.attr({"class":"list-group-item"})//bootstrap class
+       choices.append(li)//add to bank of answers 
        for(let i = 0 ;i <4;i++ ){
         let temp = $(document.createElement('li'))
-        temp.html(Math.floor(Math.random() * 20000) + ' Days')
+        temp.html(Math.floor(Math.random() * 20000) + ' Days')//wrong answers have a random value
+        temp.attr({"class":"list-group-item"})
         choices.append(temp)//make a couple random choices too
         temp.click(function(){
           temp.css("background-color","red")//wrong answers 
@@ -57,8 +59,8 @@ function setUpGame(){
        }
        )
     }
-    xhttp.open("GET", 'http://localhost:3000/guess', true);
-    xhttp.send();
+    xhttp.open("GET", 'http://localhost:3000/guess', true);//setting up http call
+    xhttp.send();//calling server 
 }
 function resetGame(){
   //clear board 

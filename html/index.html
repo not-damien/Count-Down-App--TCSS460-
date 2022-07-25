@@ -11,7 +11,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="#">Cruz</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -82,23 +82,23 @@
 //calls api and updates element based on string passed
 function startCountdown(){
     setInterval(function (){
-            let date = $('#countdown').val()
+            let date = $('#countdown').val()//get the selected target date from user 
             const xhttp = new XMLHttpRequest();
-            xhttp.onload = function() {
-                let string = this.responseText
-                let j = JSON.parse(string)
+            xhttp.onload = function() {//called once response is loaded
+                let string = this.responseText//get response text
+                let j = JSON.parse(string)//pars into a JSON
                 if(j.milis <= 0){
-                    clearInterval(this)
+                    clearInterval(this)//if time is less than or = 0 no need to update anymore
                 }else{
                     //update screen
-                    updateCountdown(j)
+                    updateCountdown(j)//passed json into function to load values into html
                 }
             }
             xhttp.open("GET", 'http://localhost:3000/countdown/'+ date, true);
             xhttp.send();
         }, 1000)
 }
-function updateCountdown(obj){
+function updateCountdown(obj){//updates html of the Counter with the values passed 
     let daysleft = $('#daysleft')
     let hours = $('#hoursleft')
     let mins = $('#minsleft')
@@ -109,14 +109,14 @@ function updateCountdown(obj){
     mins.html(obj.minutes)
     secs.html(obj.seconds)
 }
-function getEvents(){
+function getEvents(){//pulls events from the server to create radio buttons 
     const xhttp = new XMLHttpRequest();
     xhttp.onload = function() {
        let string = this.responseText
        let j = JSON.parse(string)
        console.log(j)
        //call function that adds radio selectors and pass JSON
-       setUpEventSelectors(j)
+       setUpEventSelectors(j)//send to function to update html
     }
     xhttp.open("GET", 'http://localhost:3000/allEvents', true);
     xhttp.send();
@@ -125,24 +125,22 @@ function getEvents(){
 function setUpEventSelectors(obj){
     let div = $('#radioDiv')
     div.html('')//clear div
-    Object.entries(obj).forEach((entry) => {
-        const [key, value] = entry;
-        console.log(`${key}: ${value}`);
-        let newButton = $(document.createElement('input'))
-        newButton.attr({'name':'eventRadios', 'value' : value, 'id': key, 'type':'radio','onClick':'getEventCountDown()'})
-        let label = $(document.createElement('label'))
-        label.attr({'for':key,})
+    Object.entries(obj).forEach((entry) => {//loop
+        const [key, value] = entry;//decompose current entry 
+        console.log(`${key}: ${value}`);//log to console for debuging 
+        let newButton = $(document.createElement('input'))//create radio button
+        newButton.attr({'name':'eventRadios', 'value' : value, 'id': key, 'type':'radio','onClick':'getEventCountDown()'})//set up attrbutes
+        let label = $(document.createElement('label'))//create label for button
+        label.attr({'for':key,})//tie label to button
         label.html(key)
         div.append(newButton)
         div.append(label)
         div.append(document.createElement('br'))
-        
+        //append created elements to html
     });
 
 
-
-    // <input type="radio" id="html" name="fav_language" value="HTML">
-    //                 <label for="html">HTML</label><br>
+    //my original sudo code for this funciton
     //loop through key value pairs 
         //inside loop add keys with radio buttons 
 }
@@ -159,8 +157,8 @@ function addNewEvent(){
     xhttp.onload = function() {
        let string = this.responseText
        let j = JSON.parse(string)
-       console.log(j)
-       setUpEventSelectors(j)
+       console.log(j)//for debuging
+       setUpEventSelectors(j)//update page
        //call function that adds radio selectors and pass JSON
        $('#nameofevent').val('')
     }
@@ -168,7 +166,7 @@ function addNewEvent(){
     xhttp.send();
 
 }
-getEvents()
+getEvents()//called to load events for the first time
 
 
 
