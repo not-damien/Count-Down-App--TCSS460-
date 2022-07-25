@@ -11,14 +11,14 @@ let upcomingEvent = {//if had more time would dynamiclly update the years on fix
     "Christmas":"2022-12-25",
     "Thanksgiving":"2022-11-24"
 }
-//todo add database of historical events 
+//todo add more historical events 
 let historicalEvents = {
     "The Moon Landing": "1969-07-16",
     "Shakespeare's Birth": "1616-04-23",
     "The End of civil war": "1865-04-09"
 }
 
-
+//example code where i started
 // app.get('/:id' ,(req, res) => {
 //     req.header('Access-Control-Allow-Origin', '*')//to get cors to shut up when calling from external html, unsure if right way to do
 //     res.status(200);
@@ -31,33 +31,33 @@ let historicalEvents = {
 //     const result = Math.floor(Math.random() * 1000)
 //     res.json({"result": result})
 // })
+
+
 // //enable port to listen to incoming requests
 app.listen(port, function() {
     console.log('API is runnning on port' + port)
 })
 
-//ideas 
-//convertion app
 
 
 //
 app.get('/countdown/:date', function (req,res){
-    res.set({
+    res.set({//so i can access from webpage easy 
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
     });
-    console.log('date is being used')
-    res.status(200)
-    var countDownDate = new Date(req.params.date).getTime()
-    var now = new Date().getTime()
-    var timeleft = countDownDate - now;
-    res.json(convertDates(timeleft))
+    console.log('date is being used')//for debuging
+    res.status(200)//ok
+    var countDownDate = new Date(req.params.date).getTime()//use the string passed to create Date object
+    var now = new Date().getTime()//what time is is now 
+    var timeleft = countDownDate - now;//how much time until target date
+    res.json(convertDates(timeleft))//convert the milliseconds vaalue into days hours minutes and seconds 
 })
 
 app.get('/dateof/:event',function (req,res){
     res.status(200)
     let event = req.params.event
-    res.send(upcomingEvent[event])
+    res.send(upcomingEvent[event])//return the date of the matching event 
 })
 app.get('/allEvents',function(req,res){
     res.set({
@@ -65,7 +65,7 @@ app.get('/allEvents',function(req,res){
         "Access-Control-Allow-Origin": "*",
     });
     res.status(200)
-    res.json(upcomingEvent)
+    res.json(upcomingEvent)//return all upcoming events 
 })
 
 app.get('/dayof/:date', function(req,res){
@@ -75,7 +75,7 @@ app.get('/dayof/:date', function(req,res){
     });
     var date = new Date(req.params.date)
     res.status(200)
-    switch (date.getUTCDay()) {
+    switch (date.getUTCDay()) {//gets the string value of the utc day
         case 0:
           day = "Sunday";
           break;
@@ -112,15 +112,15 @@ app.get('/guess',function(reg,res){
         "Access-Control-Allow-Origin": "*",
     });
     
-    var obj_keys = Object.keys(historicalEvents)
-    let i = Math.floor(Math.random() * obj_keys.length);
-    console.log(obj_keys[i])
-
+    var obj_keys = Object.keys(historicalEvents)//get array of keys
+    let i = Math.floor(Math.random() * obj_keys.length);//get random index in the bound of the array
+    console.log(obj_keys[i])//print the key at that index for debuging
+    //sudo code 
     //get random event
     //calculate the days since that date
     //return both event and days in json let clinet handle guess logic
-    res.status(200)
-    res.json({'name': obj_keys[i], 'days' : numdaysSince(now, new Date(historicalEvents[obj_keys[i]]))})//place holder for testing want to make dynamic later
+    res.status(200)//ok
+    res.json({'name': obj_keys[i], 'days' : numdaysSince(now, new Date(historicalEvents[obj_keys[i]]))})//sends single JSON elemnt with {event:days til event }
    
 })
 
@@ -132,10 +132,10 @@ app.post('/add/:date/:name', function(req, res){//used get for testing in browse
         "Access-Control-Allow-Origin": "*",
     });
     res.status(200)
-    let tempDate = req.params.date
-    let tempName = req.params.name
-    upcomingEvent[tempName] = tempDate
-    res.json(upcomingEvent) 
+    let tempDate = req.params.date//get date passed
+    let tempName = req.params.name//get name 
+    upcomingEvent[tempName] = tempDate//tie name and date together in JSON
+    res.json(upcomingEvent) //return updated list of upcoming events 
 })
 
 
@@ -150,7 +150,7 @@ app.post('/add/:date/:name', function(req, res){//used get for testing in browse
  * @param {*} timeleft number of milisecond 
  * @returns a JSON object that represnts the passed amount of mili seconds in days hours minutes and seconds 
  */
-function convertDates(timeleft){
+function convertDates(timeleft){//converts miliseconds in hours minutes and seconds
     var days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
     var hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     var minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
