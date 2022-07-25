@@ -1,3 +1,4 @@
+github url = 'https://github.com/not-damien/Count-Down-App--TCSS460-'
 how to get up and running
 0)unzip folder 
 1)ensure node is installed 
