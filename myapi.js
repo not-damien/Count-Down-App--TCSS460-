@@ -4,12 +4,12 @@ const port = 3000
 let now = new Date()
 
 let upcomingEvent = {//if had more time would dynamiclly update the years on fixed day holidays 
-    "newyearsday": now.getFullYear() + 1 + "-01-01", //practice on adding dynamic dates
-    "fourthofjuly":  "2023-07-04",//for holidays that already passed giving next years date
-    "juneteenth":  "2023-06-19",
-    "holloween": "2022-10-31",
-    "christmas":"2022-12-25",
-    "thanksgiving":"2022-11-24"
+    "New-Years-Day": now.getFullYear() + 1 + "-01-01", //practice on adding dynamic dates
+    "Fourth-of-July":  "2023-07-04",//for holidays that already passed giving next years date
+    "Juneteenth":  "2023-06-19",
+    "Halloween": "2022-10-31",//todo make names nicer
+    "Christmas":"2022-12-25",
+    "Thanksgiving":"2022-11-24"
 }
 //todo add database of historical events 
 let historicalEvents = {
@@ -60,6 +60,10 @@ app.get('/dateof/:event',function (req,res){
     res.send(upcomingEvent[event])
 })
 app.get('/allEvents',function(req,res){
+    res.set({
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+    });
     res.status(200)
     res.json(upcomingEvent)
 })
